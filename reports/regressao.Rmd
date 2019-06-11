@@ -1,0 +1,50 @@
+---
+title: "Regression"
+author: "Raoni Smaneoto"
+output:
+  html_document:
+    theme: readable
+    df_print: paged
+    toc: yes
+  html_notebook:
+    fig_width: 7
+    theme: readable
+    toc: yes
+    toc_float: yes
+---
+
+```{r setup, include=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(boot)
+library(readr)
+library(here)
+library(broom)
+theme_set(theme_bw())
+```
+
+## The data
+
+```{r}
+set.seed(12345)
+data = readr::read_tsv(here::here("data/marioKart.txt"))
+data
+```
+
+
+```{r}
+
+data = data %>% 
+  filter(totalPr < 100)
+         
+data %>% ggplot(aes(
+    x=nBids,
+    y=totalPr
+  )) +
+  geom_point()
+
+reg = lm(nBids ~ totalPr, data)
+
+glance(reg)
+tidy(reg)
+```
