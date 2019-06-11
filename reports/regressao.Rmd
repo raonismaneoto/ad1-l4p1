@@ -48,3 +48,18 @@ reg = lm(nBids ~ totalPr, data)
 glance(reg)
 tidy(reg)
 ```
+
+```{r}
+data = data %>% mutate(diff=totalPr-startPr)
+
+data %>% ggplot(aes(
+    x=nBids,
+    y=diff
+  )) +
+  geom_point()
+
+reg = lm(nBids ~ diff, data)
+
+glance(reg)
+tidy(reg)
+```
